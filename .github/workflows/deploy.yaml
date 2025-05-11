@@ -17,25 +17,34 @@ jobs:
       - name: Start Minikube
         shell: pwsh
         run: |
-          minikube start
+          minikube start --driver=docker
           minikube status
+          if ((minikube status --output json | ConvertFrom-Json).Host -ne "Running") { Write-Error "Minikube is not running"; exit 1 }
 
       - name: Set up Docker to use Minikube's environment
         shell: pwsh
         run: |
           Write-Output "Configuring Docker to use Minikube's daemon..."
-          minikube -p minikube docker-env --shell powershell | Invoke-Expression
+          $envVars = minikube -p minikube docker-env --shell powershell
+          Write-Output $envVars
+          foreach ($line in $envVars) {
+            if ($line -match "^SET ") {
+              $line = $line -replace "^SET ", ""
+              $name, $value = $line.Split("=", 2)
+              Set-Item -Path "env:$name" -Value $value
+            }
+          }
 
       - name: Build Frontend Docker image
         shell: pwsh
         run: |
-          cd frontend
+          Set-Location frontend
           docker build -t abdullah577/mern-frontend:latest .
 
       - name: Build Backend Docker image
         shell: pwsh
         run: |
-          cd backend
+          Set-Location backend
           docker build -t abdullah577/mern-backend:latest .
 
       - name: Login to Docker Hub
@@ -73,7 +82,7 @@ jobs:
       - name: Get Frontend URL
         shell: pwsh
         run: |
-         $ip = minikube ip
-         $port = kubectl get svc frontend-service -n scd-project -o=jsonpath="{.spec.ports[0].nodePort}"
-         $url = "http://$ip:$port"
-         Write-Output "✅ Frontend is accessible at: $url"
+          $ip = minikube ip
+          $port = kubectl get svc frontend-service -n scd-project -o=jsonpath="{.spec.ports[0].nodePort}"
+          $url = "http://$ip:$port"
+          Write-Output "✅ Frontend is accessible at: $url"
