@@ -14,6 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Check Minikube installation
+        run: |
+          if ! command -v minikube &> /dev/null; then
+            echo "Minikube not found. Installing..."
+            curl -Lo minikube.exe https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe
+            mv minikube.exe C:\Windows\System32\minikube.exe
+          else
+            echo "Minikube is already installed."
+          fi
+
       - name: Start Minikube
         run: |
           minikube start
