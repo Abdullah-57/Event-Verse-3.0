@@ -13,6 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Start Minikube
+        shell: powershell
+        run: |
+          Write-Output "Starting Minikube..."
+          minikube start --driver=docker
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Failed to start Minikube"
+            exit 1
+          }
+          Write-Output "Minikube started successfully"
+
       - name: Verify Minikube and Docker
         shell: powershell
         run: |
@@ -21,8 +32,20 @@ jobs:
           docker --version
           docker info --format '{{.ServerVersion}}'
           Write-Output "Checking Minikube status..."
-          minikube status -p minikube || { Write-Error "Minikube is not running or accessible"; exit 1; }
+          $status = minikube status -p minikube
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Minikube is not running or accessible"
+            exit 1
+          }
           Write-Output "Minikube is running"
+
+      - name: Install kubectl
+        shell: powershell
+        run: |
+          Write-Output "Installing kubectl..."
+          Invoke-WebRequest -Uri "https://dl.k8s.io/release/v1.32.0/bin/windows/amd64/kubectl.exe" -OutFile "kubectl.exe"
+          Move-Item -Path "kubectl.exe" -Destination "C:\Windows\System32\kubectl.exe"
+          kubectl version --client
 
       - name: Set up Docker to use Minikube's environment
         shell: powershell
