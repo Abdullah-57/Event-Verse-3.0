@@ -2,49 +2,49 @@ name: Build and Deploy to Minikube
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build-deploy:
     runs-on: self-hosted
+    defaults:
+      run:
+        shell: pwsh
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Start Minikube
-      run: |
-        minikube start
-        minikube status
+      - name: Start Minikube
+        run: |
+          & minikube start
+          & minikube status
 
-    - name: Set Docker to use Minikube's Docker daemon
-      shell: bash
-      run: |
-        echo "Configuring Docker to use Minikube's Docker daemon..."
-        eval $(minikube docker-env)
+      - name: Configure Docker to use Minikube's Docker daemon
+        run: |
+          Write-Host "Configuring Docker to use Minikube's Docker daemon..."
+          & minikube docker-env --shell=powershell | Invoke-Expression
 
-    - name: Build Backend Docker Image
-      run: |
-        docker build -t abdullah577/mern-backend:latest ./backend
+      - name: Build Backend Docker Image
+        run: docker build -t abdullah577/mern-backend:latest ./backend
 
-    - name: Build Frontend Docker Image
-      run: |
-        docker build -t abdullah577/mern-frontend:latest ./frontend
+      - name: Build Frontend Docker Image
+        run: docker build -t abdullah577/mern-frontend:latest ./frontend
 
-    - name: Login to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" `
+               | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Push Backend Image to Docker Hub
-      run: docker push abdullah577/mern-backend:latest
+      - name: Push Backend Image
+        run: docker push abdullah577/mern-backend:latest
 
-    - name: Push Frontend Image to Docker Hub
-      run: docker push abdullah577/mern-frontend:latest
+      - name: Push Frontend Image
+        run: docker push abdullah577/mern-frontend:latest
 
-    - name: Deploy to Minikube
-      run: |
-        kubectl apply -f k8s/backend-deployment.yaml
-        kubectl apply -f k8s/backend-service.yaml
-        kubectl apply -f k8s/frontend-deployment.yaml
-        kubectl apply -f k8s/frontend-service.yaml
-        kubectl apply -f k8s/mongo.yaml
+      - name: Deploy to Minikube
+        run: |
+          kubectl apply -f k8s/mongo.yaml
+          kubectl apply -f k8s/backend-deployment.yaml
+          kubectl apply -f k8s/backend-service.yaml
+          kubectl apply -f k8s/frontend-deployment.yaml
+          kubectl apply -f k8s/frontend-service.yaml
