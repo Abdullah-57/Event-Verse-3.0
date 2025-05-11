@@ -15,8 +15,8 @@ jobs:
 
       - name: Install Minikube
         run: |
-          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe
-          install minikube.exe
+          curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe
+          mv minikube.exe /usr/local/bin/minikube
 
       - name: Start Minikube
         run: minikube start
