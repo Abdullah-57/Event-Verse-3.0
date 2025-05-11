@@ -16,7 +16,7 @@ jobs:
 
       - name: Start Minikube
         run: |
-          minikube start
+          minikube start --driver=docker
           minikube status
 
       - name: Set up Docker to use Minikube's environment
