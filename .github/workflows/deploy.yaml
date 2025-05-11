@@ -63,7 +63,7 @@ jobs:
 
       - name: Get Frontend URL
         run: |
-         $ip = minikube ip
-         $port = kubectl get svc frontend-service -n scd-project -o=jsonpath="{.spec.ports[0].nodePort}"
-         $url = "http://$ip`:$port"
+         ip=$(minikube ip)
+         port=$(kubectl get svc frontend-service -n scd-project -o=jsonpath="{.spec.ports[0].nodePort}")
+         url="http://$ip:$port"
          echo "✅ Frontend is accessible at: $url"
