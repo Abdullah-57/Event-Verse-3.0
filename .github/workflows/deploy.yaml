@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-deploy:
-    runs-on: [self-hosted, Windows, x64]
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -67,8 +67,8 @@ jobs:
       - name: Verify deployment
         shell: pwsh
         run: |
-          kubectl get pods -n mern-app
-          kubectl get svc -n mern-app
+          kubectl get pods -n scd-project
+          kubectl get svc -n scd-project
 
       - name: Get Frontend URL
         shell: pwsh
