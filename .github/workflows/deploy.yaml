@@ -17,6 +17,7 @@ jobs:
       - name: Start Minikube
         shell: pwsh
         run: |
+          minikube delete --all
           minikube start --driver=docker
           minikube status
           if ((minikube status --output json | ConvertFrom-Json).Host -ne "Running") { Write-Error "Minikube is not running"; exit 1 }
