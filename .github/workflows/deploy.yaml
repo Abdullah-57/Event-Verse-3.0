@@ -8,24 +8,19 @@ jobs:
   build-deploy:
     runs-on: self-hosted
 
-    # Use Windows PowerShell (powershell.exe) for all run steps
-    defaults:
-      run:
-        shell: powershell
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Start Minikube
         run: |
-          & minikube start
-          & minikube status
+          minikube start
+          minikube status
 
       - name: Configure Docker to use Minikube's Docker daemon
         run: |
-          Write-Host "Configuring Docker to use Minikube's Docker daemon..."
-          & minikube docker-env --shell=powershell | Invoke-Expression
+          echo "Configuring Docker to use Minikube's Docker daemon..."
+          eval $(minikube docker-env)
 
       - name: Build Backend Docker Image
         run: docker build -t abdullah577/mern-backend:latest ./backend
