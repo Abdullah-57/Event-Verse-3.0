@@ -13,7 +13,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Start Minikube
+      run: |
+        minikube start
+        minikube status
+
     - name: Set Docker to use Minikube's Docker daemon
+      shell: bash
       run: |
         echo "Configuring Docker to use Minikube's Docker daemon..."
         eval $(minikube docker-env)
