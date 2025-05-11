@@ -15,31 +15,26 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Start Minikube
-        shell: pwsh
         run: |
           minikube start
           minikube status
 
       - name: Set up Docker to use Minikube's environment
-        shell: pwsh
         run: |
           Write-Output "Configuring Docker to use Minikube's daemon..."
           minikube -p minikube docker-env --shell powershell | Invoke-Expression
 
       - name: Build Frontend Docker image
-        shell: pwsh
         run: |
           cd frontend
           docker build -t abdullah577/mern-frontend:latest .
 
       - name: Build Backend Docker image
-        shell: pwsh
         run: |
           cd backend
           docker build -t abdullah577/mern-backend:latest .
 
       - name: Login to Docker Hub
-        shell: pwsh
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -47,15 +42,12 @@ jobs:
           echo "$env:DOCKER_PASSWORD" | docker login -u "$env:DOCKER_USERNAME" --password-stdin
 
       - name: Push Frontend image to Docker Hub
-        shell: pwsh
         run: docker push abdullah577/mern-frontend:latest
 
       - name: Push Backend image to Docker Hub
-        shell: pwsh
         run: docker push abdullah577/mern-backend:latest
 
       - name: Deploy to Minikube
-        shell: pwsh
         run: |
           kubectl create namespace scd-project --dry-run=client -o yaml | kubectl apply -f -
           kubectl apply -f k8s/mongo.yaml
@@ -65,13 +57,11 @@ jobs:
           kubectl apply -f k8s/frontend-service.yaml
 
       - name: Verify deployment
-        shell: pwsh
         run: |
           kubectl get pods -n scd-project
           kubectl get svc -n scd-project
 
       - name: Get Frontend URL
-        shell: pwsh
         run: |
          $ip = minikube ip
          $port = kubectl get svc frontend-service -n scd-project -o=jsonpath="{.spec.ports[0].nodePort}"
