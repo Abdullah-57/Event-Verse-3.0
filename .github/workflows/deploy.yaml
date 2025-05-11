@@ -13,9 +13,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install Minikube
+        run: |
+          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe
+          install minikube.exe
+
+      - name: Start Minikube
+        run: minikube start
+
+      - name: Check Minikube Status
+        run: minikube status
+
       - name: Set up Docker to use Minikube's environment
         shell: powershell
         run: |
+          minikube version
+          minikube status
           & minikube -p minikube docker-env --shell powershell | Invoke-Expression
           Write-Output "Docker environment set up"
 
