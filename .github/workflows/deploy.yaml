@@ -8,56 +8,65 @@ on:
 
 jobs:
   build-deploy:
-    runs-on: self-hosted
+    runs-on: [self-hosted, Windows, x64]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Check Minikube installation
+      - name: Check Environment
+        shell: cmd
         run: |
-          if ! command -v minikube &> /dev/null; then
-            echo "Minikube not found. Installing..."
-            curl -Lo minikube.exe https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe
-            mv minikube.exe C:\Windows\System32\minikube.exe
-          else
-            echo "Minikube is already installed."
-          fi
+          echo "Operating System:"
+          ver
+          echo "Shell:"
+          echo %COMSPEC%
+          echo "Minikube Version:"
+          minikube version
+          echo "Docker Version:"
+          docker --version
 
       - name: Start Minikube
+        shell: cmd
         run: |
-          minikube start
+          minikube start --driver=docker
           minikube status
 
       - name: Set up Docker to use Minikube's environment
+        shell: cmd
         run: |
-          echo "Configuring Docker to use Minikube's daemon..."
-          eval $(minikube -p minikube docker-env)
+          for /f "tokens=*" %i in ('minikube -p minikube docker-env') do %i
 
       - name: Build Frontend Docker image
+        shell: cmd
         run: |
           cd frontend
           docker build -t abdullah577/mern-frontend:latest .
 
       - name: Build Backend Docker image
+        shell: cmd
         run: |
           cd backend
           docker build -t abdullah577/mern-backend:latest .
 
       - name: Login to Docker Hub
+        shell: cmd
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          echo "$env:DOCKER_PASSWORD" | docker login -u "$env:DOCKER_USERNAME" --password-stdin
+          echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
 
       - name: Push Frontend image to Docker Hub
+        shell: cmd
         run: docker push abdullah577/mern-frontend:latest
 
       - name: Push Backend image to Docker Hub
+        shell: cmd
         run: docker push abdullah577/mern-backend:latest
 
       - name: Deploy to Minikube
+        shell: cmd
         run: |
           kubectl create namespace scd-project --dry-run=client -o yaml | kubectl apply -f -
           kubectl apply -f k8s/mongo.yaml
@@ -67,13 +76,14 @@ jobs:
           kubectl apply -f k8s/frontend-service.yaml
 
       - name: Verify deployment
+        shell: cmd
         run: |
           kubectl get pods -n scd-project
           kubectl get svc -n scd-project
 
       - name: Get Frontend URL
+        shell: cmd
         run: |
-         ip=$(minikube ip)
-         port=$(kubectl get svc frontend-service -n scd-project -o=jsonpath="{.spec.ports[0].nodePort}")
-         url="http://$ip:$port"
-         echo "✅ Frontend is accessible at: $url"
+          for /f "tokens=*" %i in ('minikube ip') do set IP=%i
+          for /f "tokens=*" %j in ('kubectl get svc frontend-service -n scd-project -o=jsonpath="{.spec.ports[0].nodePort}"') do set PORT=%j
+          echo Frontend is accessible at: http://%IP%:%PORT%
