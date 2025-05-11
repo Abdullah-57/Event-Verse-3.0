@@ -21,8 +21,8 @@ jobs:
 
       - name: Set up Docker to use Minikube's environment
         run: |
-          Write-Output "Configuring Docker to use Minikube's daemon..."
-          minikube -p minikube docker-env --shell powershell | Invoke-Expression
+          echo "Configuring Docker to use Minikube's daemon..."
+          eval $(minikube -p minikube docker-env)
 
       - name: Build Frontend Docker image
         run: |
@@ -66,4 +66,4 @@ jobs:
          $ip = minikube ip
          $port = kubectl get svc frontend-service -n scd-project -o=jsonpath="{.spec.ports[0].nodePort}"
          $url = "http://$ip`:$port"
-         Write-Output "✅ Frontend is accessible at: $url"
+         echo "✅ Frontend is accessible at: $url"
