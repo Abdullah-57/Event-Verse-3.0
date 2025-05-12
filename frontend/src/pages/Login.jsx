@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/users/login/${role}`,
+        `http://127.0.0.1:5000/api/users/login/${role}`,
         { email, password }
       );
       setMessage(response.data.message);

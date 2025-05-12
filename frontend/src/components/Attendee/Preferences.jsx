@@ -43,7 +43,7 @@ const InterestsForm = ({}) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/users/preferences",
+        "http://127.0.0.1:5000/api/users/preferences",
         {
           method: "PUT",
           headers: {

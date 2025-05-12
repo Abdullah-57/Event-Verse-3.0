@@ -10,7 +10,7 @@ const SetDiscounts = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/events/all-events", {
+        const response = await fetch("http://127.0.0.1:5000/api/events/all-events", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const SetDiscounts = () => {
   const handleSubmit = async (eventId) => {
     try {
       const event = events.find((event) => event._id === eventId);
-      const response = await fetch(`http://localhost:5000/api/events/discounts/apply`, {
+      const response = await fetch(`http://127.0.0.1:5000/api/events/discounts/apply`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

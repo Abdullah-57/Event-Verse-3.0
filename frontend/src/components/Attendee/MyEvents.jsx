@@ -31,7 +31,7 @@ const MyEvents = () => {
     const fetchTickets = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/tickets/user/${user.id}`
+          `http://127.0.0.1:5000/api/tickets/user/${user.id}`
         );
         const data = await response.json();
         setTickets(data);
@@ -52,7 +52,7 @@ const MyEvents = () => {
     const popularEvents = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/events/trending"
+          "http://127.0.0.1:5000/api/events/trending"
         );
         const data = await response.json();
 
@@ -77,7 +77,7 @@ const MyEvents = () => {
   const cancelTicket = async (ticketId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/tickets/cancel/${ticketId}`,
+        `http://127.0.0.1:5000/api/tickets/cancel/${ticketId}`,
         { method: "DELETE" }
       );
 
@@ -97,7 +97,7 @@ const MyEvents = () => {
 
       const eventId = event._id;
       const response = await fetch(
-        "http://localhost:5000/api/events/download-ticket",
+        "http://127.0.0.1:5000/api/events/download-ticket",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

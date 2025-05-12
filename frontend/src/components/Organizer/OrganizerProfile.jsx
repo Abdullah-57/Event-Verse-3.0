@@ -21,7 +21,7 @@ const Profile = () => {
         if (storedUser && storedUser._id) {
           // Fetch user details from the API
           const response = await fetch(
-            `http://localhost:5000/api/users/profile/${storedUser._id}`
+            `http://127.0.0.1:5000/api/users/profile/${storedUser._id}`
           );
 
           if (!response.ok) {
@@ -58,7 +58,7 @@ const Profile = () => {
   // Save updated user details back to local storage and state
   const handleSave = async () => {
     localStorage.setItem("user", JSON.stringify(editedDetails));
-    const response = await fetch("http://localhost:5000/api/users/profile", {
+    const response = await fetch("http://127.0.0.1:5000/api/users/profile", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -47,7 +47,7 @@ const EventAnalytics = () => {
   const fetchSummaryData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/events/analytics/${org.id}`
+        `http://127.0.0.1:5000/api/events/analytics/${org.id}`
       );
 
       if (!response.ok) {
@@ -79,7 +79,7 @@ const EventAnalytics = () => {
   const handleDownloadReport = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/events/download-analytics",
+        "http://127.0.0.1:5000/api/events/download-analytics",
         {
           method: "POST",
           headers: {

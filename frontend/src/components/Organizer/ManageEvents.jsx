@@ -12,7 +12,7 @@ const ManageEvents = () => {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/events/org/events"
+          "http://127.0.0.1:5000/api/events/org/events"
         );
         const data = await response.json();
         setEvents(data);
@@ -29,7 +29,7 @@ const ManageEvents = () => {
   const handleEndEvent = async (eventId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/events/end-event/${eventId}`,
+        `http://127.0.0.1:5000/api/events/end-event/${eventId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -76,7 +76,7 @@ const ManageEvents = () => {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/events/edit-event/${editEvent._id}`,
+        `http://127.0.0.1:5000/api/events/edit-event/${editEvent._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

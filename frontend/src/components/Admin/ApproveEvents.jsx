@@ -32,7 +32,7 @@ const ApproveEvents = () => {
   const fetchEvents = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/events/admin/events"
+        "http://127.0.0.1:5000/api/events/admin/events"
       );
       if (!response.ok) throw new Error("Failed to fetch events");
 
@@ -85,7 +85,7 @@ const ApproveEvents = () => {
     try {
       const action = isApproved ? "approve-event" : "disapprove-event";
       const response = await fetch(
-        `http://localhost:5000/api/events/${action}/${eventId}`,
+        `http://127.0.0.1:5000/api/events/${action}/${eventId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

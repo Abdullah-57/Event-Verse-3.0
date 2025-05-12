@@ -16,7 +16,7 @@ const AllUsers = () => {
   // Fetch all users from the backend
   const fetchAllUsers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/all");
+      const response = await fetch("http://127.0.0.1:5000/api/users/all");
       if (!response.ok) throw new Error("Failed to fetch users");
 
       const data = await response.json();
@@ -33,7 +33,7 @@ const AllUsers = () => {
   const handleDeleteUser = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/users/delete/${userId}`,
+        `http://127.0.0.1:5000/api/users/delete/${userId}`,
         { method: "DELETE" }
       );
 
@@ -53,7 +53,7 @@ const AllUsers = () => {
         // set userActivities state to null to clear previous activities
         setUserActivities(null);
       const response = await fetch(
-        `http://localhost:5000/api/activities/user-activities/${userId}`
+        `http://127.0.0.1:5000/api/activities/user-activities/${userId}`
       );
         const data = await response.json();
      
@@ -77,7 +77,7 @@ const AllUsers = () => {
   const handleViewComplaints = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/users/${userId}/complaints`
+        `http://127.0.0.1:5000/api/users/${userId}/complaints`
       );
       const data = await response.json();
 

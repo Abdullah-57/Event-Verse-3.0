@@ -12,7 +12,7 @@ const AllFeedback = () => {
 
   const fetchAllFeedback = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/feedback/all");
+      const response = await fetch("http://127.0.0.1:5000/api/feedback/all");
       if (!response.ok) throw new Error("Failed to fetch feedback");
 
       const data = await response.json();
@@ -28,7 +28,7 @@ const AllFeedback = () => {
   const handleDeleteFeedback = async (feedbackId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/feedback/delete/${feedbackId}`,
+        `http://127.0.0.1:5000/api/feedback/delete/${feedbackId}`,
         { method: "DELETE" }
       );
 

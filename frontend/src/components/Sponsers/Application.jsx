@@ -57,7 +57,7 @@ const ApplyForSponsorship = () => {
   const fetchEvents = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/events/all-events"
+        "http://127.0.0.1:5000/api/events/all-events"
       );
       if (!response.ok) throw new Error("Failed to fetch events");
 
@@ -150,7 +150,7 @@ const ApplyForSponsorship = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
 
-      const response = await fetch("http://localhost:5000/api/sponsor/submit", {
+      const response = await fetch("http://127.0.0.1:5000/api/sponsor/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -10,7 +10,7 @@ const ManageSponsorApplications = () => {
     const fetchApplications = async () => {
       try {
         const user = JSON.parse(localStorage.getItem("user"));
-        const response = await fetch(`http://localhost:5000/api/sponsor/organizer/${user.id}`, {
+        const response = await fetch(`http://127.0.0.1:5000/api/sponsor/organizer/${user.id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const ManageSponsorApplications = () => {
 
   const handleStatusChange = async (applicationId, status) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/sponsor/application/${applicationId}`, {
+      const response = await fetch(`http://127.0.0.1:5000/api/sponsor/application/${applicationId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

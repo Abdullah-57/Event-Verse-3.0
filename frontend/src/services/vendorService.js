@@ -1,6 +1,6 @@
 // vendorService.js
 
-const API_BASE_URL = "http://localhost:5000/api/sponsor";
+const API_BASE_URL = "http://127.0.0.1:5000/api/sponsor";
 
 // Function to submit a sponsorship application
 export const submitApplication = async (applicationData) => {

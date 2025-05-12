@@ -12,7 +12,7 @@ const ViewApplications = () => {
     const fetchApplications = async () => {
       try {
         const user = JSON.parse(localStorage.getItem("user"));
-        const response = await fetch(`http://localhost:5000/api/sponsor/user/${user.id}`, {
+        const response = await fetch(`http://127.0.0.1:5000/api/sponsor/user/${user.id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

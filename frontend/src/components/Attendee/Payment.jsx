@@ -115,7 +115,7 @@ const handleGenerateQR = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user?.email) throw new Error("Please log in to continue.");
 
-    const response = await fetch("http://localhost:5000/api/events/generate-qr", {
+    const response = await fetch("http://127.0.0.1:5000/api/events/generate-qr", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -146,7 +146,7 @@ const handleGenerateQR = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
       if (!user?.email) throw new Error("Please log in to continue");
 
-      const response = await fetch("http://localhost:5000/api/events/book", {
+      const response = await fetch("http://127.0.0.1:5000/api/events/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -175,7 +175,7 @@ const handleGenerateQR = async () => {
       if (!user?.email) throw new Error("Please log in to download ticket");
 
       const response = await fetch(
-        "http://localhost:5000/api/events/download-ticket",
+        "http://127.0.0.1:5000/api/events/download-ticket",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -212,7 +212,7 @@ const handleGenerateQR = async () => {
         throw new Error("Please log in to complete ticket booking.");
 
       const response = await fetch(
-        "http://localhost:5000/api/tickets/paymentsuccess",
+        "http://127.0.0.1:5000/api/tickets/paymentsuccess",
         {
           method: "POST",
           headers: {

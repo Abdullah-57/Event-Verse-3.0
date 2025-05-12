@@ -23,7 +23,7 @@ const TicketSalesPage = () => {
       });
 
       const response = await fetch(
-        `http://localhost:5000/api/events/ticket-sales?${queryParams}`
+        `http://127.0.0.1:5000/api/events/ticket-sales?${queryParams}`
       );
       const data = await response.json();
 

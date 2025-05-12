@@ -16,7 +16,7 @@ const ViewTickets = () => {
     const fetchTickets = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/tickets/user/${user.id}`
+          `http://127.0.0.1:5000/api/tickets/user/${user.id}`
         );
         const data = await response.json();
         setTickets(data);
@@ -39,7 +39,7 @@ const ViewTickets = () => {
 
       const eventId = event._id;
       const response = await fetch(
-        "http://localhost:5000/api/events/download-ticket",
+        "http://127.0.0.1:5000/api/events/download-ticket",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

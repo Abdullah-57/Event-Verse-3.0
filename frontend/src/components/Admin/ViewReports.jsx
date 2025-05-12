@@ -37,9 +37,9 @@ const ViewReports = () => {
       try {
         const [eventsResponse, usersResponse, feedbackResponse] =
           await Promise.all([
-            fetch("http://localhost:5000/api/events/all-events"),
-            fetch("http://localhost:5000/api/users/all"),
-            fetch("http://localhost:5000/api/feedback/all"),
+            fetch("http://127.0.0.1:5000/api/events/all-events"),
+            fetch("http://127.0.0.1:5000/api/users/all"),
+            fetch("http://127.0.0.1:5000/api/feedback/all"),
           ]);
 
         const eventsData = await eventsResponse.json();
