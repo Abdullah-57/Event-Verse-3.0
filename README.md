@@ -1,5 +1,4 @@
 # Event-Verse-3.0 MERN Application with Kubernetes and Minikube
-===============================================================
 
 All new and improved **Event-Verse-3.0**, a comprehensive event management system built with the MERN stack (MongoDB, Express.js, React.js, Node.js) and deployed using Docker and Kubernetes with Minikube. This project streamlines event organization and attendee engagement for various events like conferences, concerts, and corporate gatherings.
 
